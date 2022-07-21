@@ -1,8 +1,6 @@
-
-
 # 前端开发学习笔记
 
-[TOC]
+by K.
 
 ## 1. HTML
 
@@ -102,6 +100,7 @@ HTML 支持有序、无序和定义列表
     </tr>
 </table>
 
+
 #### 2.2 表格表头
 
 表格的表头使用 \<th> 标签进行定义。
@@ -139,6 +138,7 @@ HTML 支持有序、无序和定义列表
         <td>row 2, cell 2</td>
     </tr>
 </table>
+
 
 ### 3. 文本格式化
 
@@ -247,6 +247,290 @@ META 元素通常用于指定网页的描述，关键词，文件的最后修改
 
 ## 2. CSS
 
+### 1. id和class选择器
+
+如果你要在HTML元素中设置CSS样式，你需要在元素中设置"id" 和 "class"选择器
+
+#### 1.1 id选择器
+
+id 选择器可以为标有特定 id 的 HTML 元素指定特定的样式。
+
+HTML元素以id属性来设置id选择器,CSS 中 id 选择器以 "#" 来定义。
+
+#### 1.2 class选择器
+
+class 选择器用于描述一组元素的样式，class 选择器有别于id选择器，class可以在多个元素中使用。
+
+class 选择器在 HTML 中以 class 属性表示, 在 CSS 中，类选择器以一个点 **.** 号显示
+
+#### 1.3 组合选择符
+
+ CSS3 中包含了四种组合方式:
+
+- 后代选择器(以空格   分隔)
+- 子元素选择器(以大于 **>** 号分隔）
+- 相邻兄弟选择器（以加号 **+** 分隔）
+- 普通兄弟选择器（以波浪号 **～** 分隔）
+
+##### 1.3.1 后代选择器
+
+后代选择器用于选取某元素的**后代**元素。
+
+以下实例选取所有 \<p> 元素插入到 \<div> 元素中: 
+
+```css
+div p
+{
+  background-color:yellow;
+}
+```
+
+##### 1.3.2 子元素选择器
+
+与后代选择器相比，子元素选择器（Child selectors）只能选择作为某元素**直接/一级**子元素的元素。
+
+以下实例选择了\<div>元素中所有直接子元素 \<p> ：
+
+```css
+div>p
+{
+  background-color:yellow;
+}
+```
+
+##### 1.3.3 相邻兄弟选择器
+
+相邻兄弟选择器（Adjacent sibling selector）可选择**紧接在另一元素后**的元素，且二者有**相同父元素**。
+
+如果需要选择紧接在另一个元素后的元素，而且二者有相同的父元素，可以使用相邻兄弟选择器（Adjacent sibling selector）。
+
+以下实例选取了所有位于 \<div> 元素后的第一个 \<p> 元素:
+
+```css
+div+p
+{
+  background-color:yellow;
+}
+```
+
+##### 1.3.4 后续兄弟选择器
+
+后续兄弟选择器选取**所有指定元素之后的相邻兄弟元素**。
+
+以下实例选取了所有 \<div> 元素之后的所有相邻兄弟元素 \<p> : 
+
+```css
+div~p
+{
+  background-color:yellow;
+}
+```
+
+#### 1.4 嵌套选择器
+
+它可能适用于选择器内部的选择器的样式。
+
+在下面的例子设置了四个样式：
+
+- **p{ }**: 为所有 **p** 元素指定一个样式。
+- **.marked{ }**: 为所有 **class="marked"** 的元素指定一个样式。
+- **.marked p{ }**: 为所有 **class="marked"** 元素内的 **p** 元素指定一个样式。
+- **p.marked{ }**: 为所有 **class="marked"** 的 **p** 元素指定一个样式。
+
+### 2. 盒子模型
+
+CSS盒模型本质上是一个盒子，封装周围的HTML元素，它包括：边距，边框，填充，和实际内容。
+
+![image-20220721231205676](image-20220721231205676.png)
+
+- **Margin(外边距)** - 清除边框外的区域，外边距是透明的。
+- **Border(边框)** - 围绕在内边距和内容外的边框。
+- **Padding(内边距)** - 清除内容周围的区域，内边距是透明的。
+- **Content(内容)** - 盒子的内容，显示文本和图像。
+
+### 3. 定位
+
+position 属性指定了元素的定位类型。
+
+position 属性的五个值：
+
+- [static](https://www.runoob.com/css/css-positioning.html#position-static)
+- [relative](https://www.runoob.com/css/css-positioning.html#position-relative)
+- [fixed](https://www.runoob.com/css/css-positioning.html#position-fixed)
+- [absolute](https://www.runoob.com/css/css-positioning.html#position-absolute)
+- [sticky](https://www.runoob.com/css/css-positioning.html#position-sticky)
+
+元素可以使用的顶部，底部，左侧和右侧属性定位。然而，这些属性无法工作，除非是先设定position属性。他们也有不同的工作方式，这取决于定位方法。
+
+#### 3.1 static定位
+
+HTML 元素的默认值，即没有定位，遵循正常的文档流对象。
+
+静态定位的元素不会受到 top, bottom, left, right影响。
+
+#### 3.2 fixed定位
+
+元素的位置相对于浏览器窗口是固定位置。
+
+即使窗口是滚动的它也不会移动
+
+#### 3.3 relative定位
+
+相对定位元素的定位是相对其正常位置。
+
+```css
+h2.pos_left
+{
+    position:relative;
+    left:-20px;
+}
+h2.pos_right
+{
+    position:relative;
+    left:20px;
+}
+```
+
+#### 3.4 absolute定位
+
+绝对定位的元素的位置相对于最近的已定位父元素，如果元素没有已定位的父元素，那么它的位置相对于\<html>
+
+#### 3.5 sticky定位
+
+sticky 英文字面意思是粘，粘贴，所以可以把它称之为粘性定位。
+
+`position: sticky;` 基于用户的滚动位置来定位。
+
+粘性定位的元素是依赖于用户的滚动，在 `position:relative` 与 `position:fixed` 定位之间切换。
+
+它的行为就像 `position:relative;` 而当页面滚动超出目标区域时，它的表现就像 `position:fixed;`，它会固定在目标位置。
+
+```css
+div.sticky {
+    position: -webkit-sticky; /* Safari */
+    position: sticky;
+    top: 0;
+    background-color: green;
+    border: 2px solid #4CAF50;
+}
+```
+
+### 4. 水平 & 垂直对齐
+
+#### 4.1 元素居中对齐
+
+要水平居中对齐一个元素(如 \<div>), 可以使用 `margin: auto;`。
+
+**注意:** 如果没有设置 **width** 属性(或者设置 100%)，居中对齐将不起作用。
+
+#### 4.2 文本居中对齐
+
+如果仅仅是为了文本在元素内居中对齐，可以使用 `text-align: center;`
+
+#### 4.3 图片居中对齐
+
+要让图片居中对齐, 可以使用 `margin: auto;` 并将它放到 **块** 元素中
+
+#### 4.4 左右对齐
+
+##### 4.4.1 定位方式
+
+```css
+.right {
+    position: absolute;
+    right: 0px;
+    width: 300px;
+    border: 3px solid #73AD21;
+    padding: 10px;
+}
+```
+
+注释：绝对定位元素会被从正常流中删除，并且能够交叠元素。
+
+**提示:** 当使用 **position** 来对齐元素时, 通常 \<body> 元素会设置 **margin** 和 **padding** 。 这样可以避免在不同的浏览器中出现可见的差异。
+
+##### 4.4.2 float方式
+
+```css
+.right {
+    float: right;
+    width: 300px;
+    border: 3px solid #73AD21;
+    padding: 10px;
+}
+```
+
+当像这样对齐元素时，对 \<body> 元素的外边距和内边距进行预定义是一个好主意。这样可以避免在不同的浏览器中出现可见的差异。
+
+*注意：如果子元素的高度大于父元素，且子元素设置了浮动，那么子元素将溢出，这时候你可以使用 "***clearfix**(清除浮动)" 来解决该问题。
+
+我们可以在父元素上添加 overflow: auto; 来解决子元素溢出的问题:
+
+```css
+.clearfix {
+    overflow: auto;
+}
+```
+
+#### 4.5 垂直居中对齐
+
+##### 4.5.1 使用padding
+
+CSS 中有很多方式可以实现垂直居中对齐。 一个简单的方式就是头部顶部使用 **padding**:
+
+```css
+.center {
+    padding: 70px 0;
+    border: 3px solid green;
+}
+```
+
+如果要水平和垂直都居中，可以使用 **padding** 和 **text-align: center**
+
+```css
+.center {
+    padding: 70px 0;
+    border: 3px solid green;
+    text-align: center;
+}
+```
+
+##### 4.5.2 使用 line-height
+
+```css
+.center {
+    line-height: 200px;
+    height: 200px;
+    border: 3px solid green;
+    text-align: center;
+}
+ 
+/* 如果文本有多行，添加以下代码: */
+.center p {
+    line-height: 1.5;
+    display: inline-block;
+    vertical-align: middle;
+}
+```
+
+##### 4.5.3 使用position和transform
+
+```css
+.center { 
+    height: 200px;
+    position: relative;
+    border: 3px solid green; 
+}
+ 
+.center p {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+```
+
 
 
 ## 3. JavaScript
@@ -280,7 +564,7 @@ META 元素通常用于指定网页的描述，关键词，文件的最后修改
 | [fill()](https://www.runoob.com/jsref/jsref-fill.html)       | 使用一个固定值来填充数组。                       |
 | [find()](https://www.runoob.com/jsref/jsref-find.html)       | 返回符合传入测试（函数）条件的数组元素。         |
 | [forEach()](https://www.runoob.com/jsref/jsref-foreach.html) | 数组每个元素都执行一次回调函数。                 |
-| [ndexOf()](https://www.runoob.com/jsref/jsref-indexof-array.html) | 搜索数组中的元素，并返回它所在的位置             |
+| [indexOf()](https://www.runoob.com/jsref/jsref-indexof-array.html) | 搜索数组中的元素，并返回它所在的位置             |
 | [push()](https://www.runoob.com/jsref/jsref-push.html)       | 向数组的末尾添加一个或更多元素，并返回新的长度。 |
 | [pop()](https://www.runoob.com/jsref/jsref-pop.html)         | 删除数组的最后一个元素并返回删除的元素。         |
 | [shift()](https://www.runoob.com/jsref/jsref-shift.html)     | 删除并返回数组的第一个元素。                     |
@@ -544,7 +828,7 @@ console.log(repeatDot(4))//输出结果是 ....
 
 #### 3.1 输出文件树
 
-<img src="C:\Users\12061\AppData\Roaming\Typora\typora-user-images\image-20220712110507817.png" alt="image-20220712110507817" style="zoom:67%;" />
+![QQ截图20220721233240](QQ截图20220721233240.jpg)
 
 ```javascript
 let arr=['index.html',
@@ -554,8 +838,6 @@ let arr=['index.html',
          	['index.css']
         ]
 ```
-
-<img src="C:\Users\12061\AppData\Roaming\Typora\typora-user-images\image-20220712113652538.png" alt="image-20220712113652538" style="zoom: 67%;" />
 
 ### 4. 异步编程
 
@@ -971,7 +1253,7 @@ Person.prototype.name = function() {
 
 #### 8.1 DOM树
 
-![image-20220717171749540](C:\Users\12061\AppData\Roaming\Typora\typora-user-images\image-20220717171749540.png)
+![image-20220717171749540](image-20220717171749540.png)
 
 #### 8.2 DOM操作——查询节点
 
@@ -980,13 +1262,13 @@ Person.prototype.name = function() {
 ```js
 document.getElementById("idname")
 document.getElementsByTagName("li")//返回NodeList，一个对象数组
-document.getElementsByClassName("title")//返回class属性值为title的元素的NodeList
+document.getElementsByClassName("title")//返回class属性值为title的元素的NodeList对象集合
 ```
 
 ##### 8.2.2 通过CSS选择器获取DOM节点
 
 ```js
-document.querySelector("p")
+document.querySelector("p")//该方法只返回匹配指定选择器的第一个元素。如果要返回所有匹配元素
 document.querySelectorAll("p")//返回NodeList
 document.querySelectorAll(".title")//查找所有class属性值为title的元素
 document.querySelectorAll("ul > li")//获取所有套在ul里面的li元素
@@ -1022,11 +1304,11 @@ Element.remove()
 
 #### 8.6 DOM事件
 
-![image-20220717175001273](C:\Users\12061\AppData\Roaming\Typora\typora-user-images\image-20220717175001273.png)
+![image-20220717175001273](image-20220717175001273.png)
 
 ##### 8.6.1 onclick和addEventListener
 
-<img src="C:\Users\12061\AppData\Roaming\Typora\typora-user-images\image-20220717175202515.png" alt="image-20220717175202515" style="zoom:50%;" />
+<img src="image-20220717175202515.png" alt="image-20220717175202515" style="zoom:50%;" />
 
 - onclick不能绑定多个，如果写了多个onclick，只能触发一个
 - addEventListener可以绑定多个函数，都可以触发
@@ -1243,7 +1525,7 @@ let reg = /{{(.+?)}}/g;//分组小括号是子表达式，g是全局匹配
 
 TypeScript 是 JavaScript 的超集，扩展了 JavaScript 的语法，因此现有的 JavaScript 代码可与 TypeScript 一起工作无需任何修改，TypeScript 通过类型注解提供编译时的静态类型检查。
 
-![image-20220712172400530](C:\Users\12061\AppData\Roaming\Typora\typora-user-images\image-20220712172400530.png)
+![image-20220712172400530](image-20220712172400530.png)
 
 ### 0. 安装与编译
 
