@@ -482,7 +482,6 @@ div.sticky {
 要让图片居中对齐, 可以使用 `margin: auto;` 并将它放到 **块** 元素中
 
 #### 4.4 左右对齐
-/////
 ##### 4.4.1 定位方式
 
 ```css
@@ -522,7 +521,7 @@ div.sticky {
 }
 ```
 
-#### 4.5 垂直居中对齐
+#### 4.5 水平垂直居中对齐
 
 ##### 4.5.1 使用padding
 
@@ -563,7 +562,9 @@ CSS 中有很多方式可以实现垂直居中对齐。 一个简单的方式就
 }
 ```
 
-##### 4.5.3 使用position和transform
+##### 4.5.3 使用position和transform水平垂直居中
+
+设置 `left: 50%` 和 `top: 50%` 现将子元素左上角移到父元素中心位置，然后再通过 `translate` 来调整子元素的中心点到父元素的中心。该方法可以**不定宽高**。
 
 ```css
 .center { 
@@ -578,6 +579,37 @@ CSS 中有很多方式可以实现垂直居中对齐。 一个简单的方式就
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+}
+```
+
+##### 4.5.4 利用position和margin水平垂直居中
+
+利用绝对定位，设置 `left: 50%` 和 `top: 50%` 现将子元素左上角移到父元素中心位置，然后再通过 `margin-left` 和 `margin-top` 以子元素自己的一半宽高进行负值赋值。该方法**必须定宽高**。
+
+```css
+.father {
+  position: relative;
+}
+.son {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 200px;
+  height: 200px;
+  margin-left: -100px;
+  margin-top: -100px;
+}
+```
+
+##### 4.5.5 利用flex水平垂直居中
+
+利用 `flex` ，最经典最方便的一种了，不用解释，定不定宽高无所谓
+
+```css
+.father {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 ```
 
@@ -646,7 +678,7 @@ CSS 中有很多方式可以实现垂直居中对齐。 一个简单的方式就
 
 我们可以看到，第一个div将节点的显示尺寸设置为视口宽度的50%，第二个div将其尺寸设置为父节点的50%。而在回流这个阶段，我们就需要根据视口具体的宽度，将其转为实际的像素值。（如下图）
 
-![回流](D:\STUDY\前端\Amethyst-Prime.github.io\回流.jpg)
+![回流](回流.jpg)
 
 #### 6.3 重绘
 
@@ -685,6 +717,15 @@ CSS 中有很多方式可以实现垂直居中对齐。 一个简单的方式就
 - Will-change
 
 ### 7. 实现两栏布局（左侧固定 + 右侧自适应布局）
+
+现在有以下 DOM 结构：
+
+```html
+<div class="outer">
+  <div class="left">左侧</div>
+  <div class="right">右侧</div>
+</div>
+```
 
 #### 7.1 利用浮动
 
@@ -751,7 +792,7 @@ CSS 中有很多方式可以实现垂直居中对齐。 一个简单的方式就
 
 1. 利用绝对定位，父级元素设为相对定位。左边元素 `absolute` 定位，宽度固定。右边元素的 `margin-left` 的值设为左边元素的宽度值。
 
-   - ```
+   - ```css
      .outer {
        position: relative;
        height: 100px;
@@ -792,7 +833,7 @@ CSS 中有很多方式可以实现垂直居中对齐。 一个简单的方式就
      }
      ```
 
-
+### 8. flex布局
 
 ## 3. JavaScript
 
