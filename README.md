@@ -27,8 +27,6 @@ HTML 支持有序、无序和定义列表
 <li>Coffee</li>
 <li>Milk</li>
 </ul>
-
-
 #### 1.2 有序列表
 
 同样，有序列表也是一列项目，列表项目使用数字进行标记。 有序列表始于 <ol> 标签。每个列表项始于 <li> 标签。
@@ -191,8 +189,6 @@ HTML 使用标签 \<b>("bold") 与 \<i>("italic") 对输出的文本进行格式
 #### 4.2 HTML\<base>元素
 
 <base> 标签描述了基本的链接地址/链接目标，该标签作为HTML文档中所有的链接标签的默认链接:
-
-
 ```HTML
 <head>
 <base href="http://www.runoob.com/images/" target="_blank">
@@ -244,6 +240,49 @@ META 元素通常用于指定网页的描述，关键词，文件的最后修改
 ```HTML
 <meta http-equiv="refresh" content="30">
 ```
+
+### 5. *HTML 语义化
+
+#### 5.1 什么是HTML语义化
+
+HTML语义化是指在用标签构建HTML页面时避免大篇幅地使用无语义的标签。
+
+选择合适的标签（代码语义化）便于开发者阅读和写出更优雅的代码的同时让浏览器的爬虫和机器很好的解析。
+
+#### 5.2 为什么要语义化
+
+1. 有利于SEO，搜索引擎根据标签确定上下文和各个关键字的权重。
+2. 利于用户阅读，样式文件未加载时页面结构清晰。
+3. 利于屏幕阅读器解析，如盲人阅读器会根据语义渲染网页。
+4. 利于开发和维护，减少差异化，代码更具可读性、更易于维护。
+5. 在没有CSS的情况下，页面也能呈现出很好的内容结构和代码结构。
+
+#### 5.3 如何语义化
+
+1. 尽可能少的使用无语义的标签div和span
+2. 在语义不明显时，既可以使用div或者p时，尽量用p，因为p在默认情况下有上下间距，对兼容特殊终端有利
+3. 不要使用纯样式标签，如：b、font、u等，改用CSS设置
+4. 需要强调的文本，可以包含在strong或者em标签中（浏览器预设样式，能用css指定就不用他们），strong默认样式是加粗（不要用b），em是斜体（不用i）
+5. 使用表格时，标题要用caption，表头用thead，主体部分用tbody包围，尾部用tfoot包围。表头和单元格要区分开，表头用th，单元格用td
+6. 表单域要用fieldset标签抱起来，并用legend标签说明表单的用途
+7. 每个input标签对应的说明文本都需要使用label标签，并且通过为input设置id属性，在label标签中设置for=someId来让说明文本和相对应的input关联起来
+   
+
+### 6. *从浏览器地址栏输入 url 到请求返回发生了什么
+
+1. 输入 URL 后解析出协议、主机、端口、路径等信息，并构造一个 HTTP 请求。
+   1. 强缓存。
+   2. 协商缓存。
+2. DNS 域名解析。（[字节面试被虐后，是时候搞懂 DNS 了](https://juejin.cn/post/6990344840181940261)）
+3. TCP 连接。
+4. http 请求。
+5. 服务器处理请求并返回 HTTP 报文。
+6. 浏览器渲染页面。
+7. 断开 TCP 连接。
+
+#### 6.1 三次握手
+
+为什么需要三次握手，两次不行吗？其实这是由 TCP 的自身特点**可靠传输**决定的。客户端和服务端要进行可靠传输，那么就需要**确认双方的接收和发送能力**。第一次握手可以确认客服端的**发送能力**，第二次握手，确认了服务端的**发送能力和接收能力**，所以第三次握手才可以确认客户端的**接收能力**。不然容易出现丢包的现象。
 
 ## 2. CSS
 
@@ -339,6 +378,13 @@ div~p
 
 ### 2. 盒子模型
 
+CSS3 中的盒模型有以下两种：**标准盒模型**、**IE（替代）盒模型**
+
+两种盒子模型都是由 `content + padding + border + margin` 构成，其大小都是由 `content + padding + border` 决定的，但是盒子内容宽/高度（即 `width/height`）的计算范围根据盒模型的不同会有所不同：
+
+- 标准盒模型：只包含 `content` 。
+- IE（替代）盒模型：`content + padding + border` 。
+
 CSS盒模型本质上是一个盒子，封装周围的HTML元素，它包括：边距，边框，填充，和实际内容。
 
 ![image-20220721231205676](image-20220721231205676.png)
@@ -351,6 +397,8 @@ CSS盒模型本质上是一个盒子，封装周围的HTML元素，它包括：�
 ### 3. 定位
 
 position 属性指定了元素的定位类型。
+
+**没有position，设置top、left、bottom、right值都没有效**
 
 position 属性的五个值：
 
@@ -393,7 +441,9 @@ h2.pos_right
 
 #### 3.4 absolute定位
 
-绝对定位的元素的位置相对于最近的已定位父元素，如果元素没有已定位的父元素，那么它的位置相对于\<html>
+绝对定位的元素的位置相对于最近的已定位（设置了相对或绝对定位）的父元素，如果元素没有已定位的父元素，那么它的位置相对于\<html>
+
+**元素会脱离文档流，如果设置偏移量，会影响其他元素的位置定位**
 
 #### 3.5 sticky定位
 
@@ -432,7 +482,7 @@ div.sticky {
 要让图片居中对齐, 可以使用 `margin: auto;` 并将它放到 **块** 元素中
 
 #### 4.4 左右对齐
-
+/////
 ##### 4.4.1 定位方式
 
 ```css
@@ -530,6 +580,217 @@ CSS 中有很多方式可以实现垂直居中对齐。 一个简单的方式就
     transform: translate(-50%, -50%);
 }
 ```
+
+### 5. 块格式化上下文BFC
+
+块格式化上下文（**Block Formatting Context，BFC**）是Web页面的可视化CSS渲染的部分，是块级盒布局发生的区域，也是浮动元素与其他元素交互的区域 。有这几种框会为其内容创建新的块格式化上下文：浮动框、绝对定位框、非块框的块容器（例如inline-blocks、table-cells和table-captions）、“overflow”属性非“visible”的块框（除非这个值已扩散到整个视口）。
+
+#### 5.1 特性
+
+1. 块级元素会在垂直方向一个接一个的排列，和文档流的排列方式一致。
+2. 在 BFC 中上下相邻的两个容器的 `margin` 会重叠，创建新的 BFC 可以避免外边距重叠。
+3. 计算 BFC 的高度时，需要计算**浮动元素**的高度。
+4. BFC 区域**不会与浮动的容器发生重叠**。
+5. BFC 是独立的容器，容器内部元素不会影响外部元素。
+6. 每个元素的左 `margin` 值和容器的左 `border` 相接触。
+
+### 6. 浏览器的渲染过程
+
+![QQ截图20220808164615](\QQ截图20220808164615.jpg)
+
+浏览器渲染过程如下：
+
+1. 解析HTML，生成DOM树，解析CSS，生成CSSOM树
+2. 将DOM树和CSSOM树结合，生成渲染树(Render Tree)
+3. Layout(回流):根据生成的渲染树，进行回流(Layout)，得到节点的几何信息（位置，大小）
+4. Painting(重绘):根据渲染树以及回流得到的几何信息，得到节点的绝对像素
+5. Display:将像素发送给GPU，展示在页面上。
+
+#### 6.1 生成渲染树
+
+![渲染树](渲染树.jpg)
+
+为了构建渲染树，浏览器主要完成了以下工作
+
+1. 从DOM树的根节点开始遍历每个**可见节点**。
+2. 对于每个**可见的节点**，找到CSSOM树中对应的规则，并应用它们。
+3. 根据每个**可见节点**以及其对应的样式，组合生成渲染树。
+
+不可见的节点包括：
+
+- 一些不会渲染输出的节点，比如script、meta、link等。
+- 一些通过css进行隐藏的节点。比如display:none。注意，利用visibility和opacity隐藏的节点，还是会显示在渲染树上的。只有display:none的节点才不会显示在渲染树上。
+
+从上面的例子来讲，我们可以看到span标签的样式有一个display:none，因此，它最终并没有在渲染树上。
+
+#### 6.2 回流
+
+前面我们通过构造渲染树，我们将可见DOM节点以及它对应的样式结合起来，可是我们还需要计算它们在设备视口(viewport)内的确切位置和大小，这个计算的阶段就是回流。
+
+为了弄清每个对象在网站上的确切大小和位置，浏览器从渲染树的根节点开始遍历
+
+```html
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Critial Path: Hello world!</title>
+  </head>
+  <body>
+    <div style="width: 50%">
+      <div style="width: 50%">Hello world!</div>
+    </div>
+  </body>
+</html>
+```
+
+我们可以看到，第一个div将节点的显示尺寸设置为视口宽度的50%，第二个div将其尺寸设置为父节点的50%。而在回流这个阶段，我们就需要根据视口具体的宽度，将其转为实际的像素值。（如下图）
+
+![回流](D:\STUDY\前端\Amethyst-Prime.github.io\回流.jpg)
+
+#### 6.3 重绘
+
+最终，我们通过构造渲染树和回流阶段，我们知道了哪些节点是可见的，以及可见节点的样式和具体的几何信息(位置、大小)，那么我们就可以将渲染树的每个节点都转换为屏幕上的实际像素，这个阶段就叫做重绘节点。
+
+#### 6.4 何时发生回流和重绘
+
+回流这一阶段主要是计算节点的位置和几何信息，那么当页面布局和几何信息发生变化的时候，就需要回流。比如以下情况：
+
+- 添加或删除可见的DOM元素
+- 元素的位置发生变化
+- 元素的尺寸发生变化（包括外边距、内边框、边框大小、高度和宽度等）
+- 内容发生变化，比如文本变化或图片被另一个不同尺寸的图片所替代。
+- 页面一开始渲染的时候（这肯定避免不了）
+- 浏览器的窗口尺寸变化（因为回流是根据视口的大小来计算元素的位置和大小的）
+
+**注意：回流一定会触发重绘，而重绘不一定会回流**
+
+#### 6.5 如何减少重绘和回流
+
+##### 6.5.1 对于复杂动画效果,使用绝对定位让其脱离文档流
+
+对于复杂动画效果，由于会经常的引起回流重绘，因此，我们可以使用绝对定位，让它脱离文档流。否则会引起父元素以及后续元素频繁的回流
+
+##### 6.5.2 CSS3硬件加速（GPU加速）
+
+1. 使用css3硬件加速，可以让transform、opacity、filters这些动画不会引起回流重绘 。
+
+2. 对于动画的其它属性，比如background-color这些，还是会引起回流重绘的，不过它还是可以提升这些动画的性能。
+
+常见的触发硬件加速的css属性：
+
+- transform
+- opacity
+- filters
+- Will-change
+
+### 7. 实现两栏布局（左侧固定 + 右侧自适应布局）
+
+#### 7.1 利用浮动
+
+1. 利用浮动，左边元素宽度固定 ，设置向左浮动。将右边元素的 `margin-left` 设为固定宽度 。注意，因为右边元素的 `width` 默认为 `auto` ，所以会自动撑满父元素。
+
+   - ```css
+     .outer {
+       height: 100px;
+     }
+     .left {
+       float: left;
+       width: 200px;
+       height: 100%;
+       background: lightcoral;
+     }
+     .right {
+       margin-left: 200px;
+       height: 100%;
+       background: lightseagreen;
+     }
+     ```
+
+2. 同样利用浮动，左边元素宽度固定 ，设置向左浮动。右侧元素设置 `overflow: hidden;` 这样右边就触发了 `BFC` ，`BFC` 的区域不会与浮动元素发生重叠，所以两侧就不会发生重叠。
+
+   - ```css
+     .outer {
+       height: 100px;
+     }
+     .left {
+       float: left;
+       width: 200px;
+       height: 100%;
+       background: lightcoral;
+     }
+     .right {
+       overflow: auto;
+       height: 100%;
+       background: lightseagreen;
+     }
+     ```
+
+#### 7.2 利用flex布局
+
+利用 `flex` 布局，左边元素固定宽度，右边的元素设置 `flex: 1` 。
+
+```css
+.outer {
+  display: flex;
+  height: 100px;
+}
+.left {
+  width: 200px;
+  height: 100%;
+  background: lightcoral;
+}
+.right {
+  flex: 1;
+  height: 100%;
+  background: lightseagreen;
+}
+```
+
+#### 7.3 利用绝对定位
+
+1. 利用绝对定位，父级元素设为相对定位。左边元素 `absolute` 定位，宽度固定。右边元素的 `margin-left` 的值设为左边元素的宽度值。
+
+   - ```
+     .outer {
+       position: relative;
+       height: 100px;
+     }
+     .left {
+       position: absolute;
+       width: 200px;
+       height: 100%;
+       background: lightcoral;
+     }
+     .right {
+       margin-left: 200px;
+       height: 100%;
+       background: lightseagreen;
+     }
+     ```
+
+2. 利用绝对定位，父级元素设为相对定位。左边元素宽度固定，右边元素 `absolute` 定位， `left` 为宽度大小，其余方向定位为 `0` 。
+
+   - ```css
+     .outer {
+       position: relative;
+       height: 100px;
+     }
+     .left {
+       width: 200px;
+       height: 100%;
+       background: lightcoral;
+     }
+     .right {
+       position: absolute;
+       left: 200px;
+       top: 0;
+       right: 0;
+       bottom: 0;
+       height: 100%;
+       background: lightseagreen;
+     }
+     ```
 
 
 
@@ -841,6 +1102,12 @@ let arr=['index.html',
 
 ### 4. 异步编程
 
+同步按你的代码顺序执行，异步不按照代码顺序执行，异步的执行效率更高。
+
+我们常常用子线程来完成一些可能消耗时间足够长以至于被用户察觉的事情，比如读取一个大文件或者发出一个网络请求。因为子线程独立于主线程，所以即使出现阻塞也不会影响主线程的运行。但是子线程有一个局限：一旦发射了以后就会与主线程失去同步，我们无法确定它的结束，如果结束之后需要处理一些事情，比如处理来自服务器的信息，我们是无法将它合并到主线程中去的。
+
+为了解决这个问题，JavaScript 中的异步操作函数往往通过`回调函数`来实现异步任务的结果处理。
+
 #### 4.1 回调函数
 
 回调函数就是一个函数，它是在我们启动一个异步任务的时候就告诉它：等你完成了这个任务之后要干什么。这样一来主线程几乎不用关心异步任务的状态了，他自己会善始善终。
@@ -887,6 +1154,12 @@ $.get("https://www.runoob.com/try/ajax/demo_test.php",function(data,status){
 
 Promise 是一个 ECMAScript 6 提供的类，目的是更加优雅地书写复杂的异步任务。
 
+一个 `Promise` 必然处于以下几种状态之一：
+
+- *待定（pending）*: 初始状态，既没有被兑现，也没有被拒绝
+- *已兑现（fulfilled）*: 意味着操作成功完成
+- *已拒绝（rejected）*: 意味着操作失败
+
 #### 5.1 构造Promise
 
 ```javascript
@@ -899,14 +1172,14 @@ Promise 构造函数只有一个参数，是一个函数，这个函数在构造
 
 #### 5.2 Promise的使用
 
-`resolve` 和 `reject` 都是函数，其中调用 `resolve` 代表一切正常，`reject` 是出现异常时所调用的：
+`resolve` 和 `reject` 都是函数，其中调用 `resolve` 代表一切正常，`reject` 是出现异常时所调用的，一旦`Promise`被`resolve()`或者被`reject()`，其状态就不能再改变：
 
 ```javascript
 new Promise(function (resolve, reject) {
     var a = 0;
     var b = 1;
     if (b == 0) reject("Divide zero");
-    else resolve(a / b);
+    else resolve(a / b);//当异步代码执行成功时，我们才会调用resolve(...), 当异步代码失败时就会调用reject(...)
 }).then(function (value) {
     console.log("a / b = " + value);
 }).catch(function (err) {
@@ -923,6 +1196,10 @@ a / b = 0
 End
 ```
 
+第一个回调函数完成以后，会将返回结果作为参数，传入第二个回调函数。
+
+如果前一个回调函数返回的是Promise对象，这时后一个回调函数就会等待该Promise对象有了运行结果，才会进一步调用。
+
 Promise 类有 `.then()` `.catch()` 和 `.finally()` 三个方法，这三个方法的参数都是一个函数，`.then()` 可以将参数中的函数添加到当前 Promise 的正常执行序列，`.catch()` 则是设定 Promise 的异常处理序列，`.finally()` 是在 Promise 执行的最后一定会执行的序列。 `.then()` 传入的函数会按顺序依次执行，有任何异常都会直接跳到 catch 序列：
 
 ```js
@@ -931,7 +1208,7 @@ new Promise(function (resolve, reject) {
     resolve(2222);
 }).then(function (value) {
     console.log(value);
-    return 3333;
+    return 3333;//相当于返回了一个新的promise，这个promise里面有一句resolve（3333）
 }).then(function (value) {
     console.log(value);
     throw "An error";
@@ -981,7 +1258,36 @@ print(1000, "First").then(function () {
 
 这种返回值为一个 Promise 对象的函数称作 Promise 函数，它常常用于开发基于异步操作的库。
 
-#### 5.4 异步函数
+#### 5.4 Promise.all 和 Promise.race
+
+##### 5.4.1 all
+
+Promise.all 方法用于将多个 Promise 实例，包装成一个新的 Promise 实例。
+
+```js
+var p = Promise.all([p1,p2,p3]);
+```
+
+上面代码中，Promise.all 方法接受一个数组作为参数，p1、p2、p3 都是 Promise 对象的实例。（Promise.all 方法的参数不一定是数组，但是必须具有 iterator 接口，且返回的每个成员都是 Promise 实例。）
+
+p 的状态由 p1、p2、p3 决定，分成两种情况。
+
+- 只有p1、p2、p3的状态都变成fulfilled，p的状态才会变成fulfilled，此时p1、p2、p3的返回值组成一个数组，传递给p的回调函数。
+- 只要p1、p2、p3之中有一个被rejected，p的状态就变成rejected，此时第一个被reject的实例的返回值，会传递给p的回调函数。
+
+##### 5.4.2 race
+
+Promise.race 方法同样是将多个 Promise 实例，包装成一个新的 Promise 实例。
+
+```js
+var p = Promise.race([p1,p2,p3]);
+```
+
+上面代码中，只要p1、p2、p3之中有一个实例率先改变状态，p的状态就跟着改变。那个率先改变的Promise实例的返回值，就传递给p的返回值。
+
+如果Promise.all方法和Promise.race方法的参数，不是Promise实例，就会先调用下面讲到的Promise.resolve方法，将参数转为Promise实例，再进一步处理。
+
+#### 5.5 异步函数
 
 可以将上面的代码优化使用异步函数：
 
@@ -1018,10 +1324,11 @@ asyncFunc();
 Return value
 ```
 
-#### 5.5 注意事项
+#### 5.6 注意事项
 
 1. then 块默认会向下顺序执行，return 是不能中断的，可以通过 throw 来跳转至 catch 实现中断。
 2. Promise适用情况：当需要多次顺序执行异步操作的时候，例如，如果想通过异步方法先后检测用户名和密码，需要先异步检测用户名，然后再异步检测密码的情况下就很适合 Promise。
+3. https://blog.csdn.net/zyj362633491/article/details/86088476?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522165942779916780357214387%2522%252C%2522scm%2522%253A%252220140713.130102334.pc%255Fall.%2522%257D&request_id=165942779916780357214387&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~first_rank_ecpm_v1~hot_rank-3-86088476-null-null.142 返回值详解
 
 ### 6. JavaScript对象
 
@@ -1209,7 +1516,7 @@ console.log(result.b[0], obj.b[0], result.b[0] === obj.b[0])
 - `Array` 对象从 `Array.prototype` 继承。
 - `Person` 对象从 `Person.prototype` 继承。
 
-所有 JavaScript 中的对象都是位于原型链顶端的 Object 的实例。
+所有 JavaScript 中的对象都是位于原型链顶端的 Object 的实例，而Object.prototype时null，也就是Object没有原型
 
 JavaScript 对象有一个指向一个原型对象的链。当试图访问一个对象的属性时，它不仅仅在该对象上搜寻，还会搜寻该对象的原型，以及该对象的原型的原型，依次层层向上搜索，直到找到一个名字匹配的属性或到达原型链的末尾。
 
