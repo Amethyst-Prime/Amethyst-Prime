@@ -445,6 +445,8 @@ h2.pos_right
 
 **元素会脱离文档流，如果设置偏移量，会影响其他元素的位置定位**
 
+脱离文档流后，该元素的宽度不再是默认撑满父元素，而是取决于其内容content的宽度
+
 #### 3.5 sticky定位
 
 sticky 英文字面意思是粘，粘贴，所以可以把它称之为粘性定位。
@@ -835,9 +837,24 @@ CSS 中有很多方式可以实现垂直居中对齐。 一个简单的方式就
 
 ### 8. flex布局
 
+很多时候我们会用到 `flex: 1` ，它具体包含了以下的意思：
+
+- `flex-grow: 1` ：该属性默认为 `0` ，如果存在剩余空间，元素也不放大。设置为 `1` 代表会放大。
+- `flex-shrink: 1` ：该属性默认为 `1` ，如果空间不足，元素缩小。
+- `flex-basis: 0%` ：该属性定义在分配多余空间之前，元素占据的主轴空间。浏览器就是根据这个属性来**计算是否有多余空间**的。默认值为 `auto` ，即项目本身大小。设置为 `0%` 之后，因为有 `flex-grow` 和 `flex-shrink` 的设置会自动放大或缩小。在做两栏布局时，如果右边的自适应元素 `flex-basis` 设为 `auto` 的话，其本身大小将会是 `0` 。
+
 ## 3. JavaScript
 
 ### 1. 类型与类型转换
+
+在 JS 中共有 `8` 种基础的数据类型，分别为： `Undefined` 、 `Null` 、 `Boolean` 、 `Number` 、 `String` 、 `Object` 、 `Symbol` 、 `BigInt` 。
+
+Object为引用类型，其他都为原始数据类型。
+
+其中 `Symbol` 和 `BigInt` 是 ES6 新增的数据类型，可能会被单独问：
+
+- Symbol 代表独一无二的值，最大的用法是用来定义对象的唯一属性名。
+- BigInt 可以表示任意大小的整数
 
 #### 1.1 空值
 
@@ -1058,6 +1075,34 @@ Number 创建方式 new Number()。
 | [isInteger](https://www.runoob.com/jsref/jsref-isinteger-number.html) | 检测指定参数是否为整数。                           |
 | [toFixed(x)](https://www.runoob.com/jsref/jsref-tofixed.html) | 把数字转换为字符串，结果的小数点后有指定位数的数字 |
 | [toString()](https://www.runoob.com/jsref/jsref-tostring-number.html) | 把数字转换为字符串，使用指定的基数。               |
+
+#### 1.6 赋值
+
+##### 1.6.1 值类型的赋值变动过程如下：
+
+```js
+let a = 100;
+let b = a;
+a = 200;
+console.log(b); // 100
+```
+
+![值](D:\STUDY\前端\Amethyst-Prime.github.io\值.jpg)
+
+值类型是直接存储在**栈（stack）**中的简单数据段，占据空间小、大小固定，属于被频繁使用数据，所以放入栈中存储；
+
+##### 1.6.2 **引用类型的赋值变动过程如下：**
+
+```js
+let a = { age: 20 };
+let b = a;
+b.age = 30;
+console.log(a.age); // 30
+```
+
+![引用](D:\STUDY\前端\Amethyst-Prime.github.io\引用.jpg)
+
+引用类型存储在**堆（heap）**中的对象，占据空间大、大小不固定。如果存储在栈中，将会影响程序运行的性能；
 
 ### 2. 函数
 
@@ -1498,6 +1543,20 @@ console.log(expObj);//{id:'expObj'}
 
 #### 6.8 对象的深拷贝
 
+我们来明确一下深拷贝和浅拷贝的定义：
+
+**浅拷贝：**
+
+![浅拷贝](D:\STUDY\前端\Amethyst-Prime.github.io\浅拷贝.jpg)
+
+创建一个新对象，这个对象有着原始对象属性值的一份精确拷贝。如果属性是基本类型，拷贝的就是基本类型的值，如果属性是引用类型，拷贝的就是内存地址 ，所以如果其中一个对象改变了这个地址，就会影响到另一个对象。
+
+**深拷贝：**
+
+![深拷贝](D:\STUDY\前端\Amethyst-Prime.github.io\深拷贝.jpg)
+
+将一个对象从内存中完整的拷贝一份出来,从堆内存中开辟一个新的区域存放新对象,且修改新对象不会影响原对象
+
 ##### 6.8.1 通过JSON的stringify与parse方法实现
 
 ```js
@@ -1509,43 +1568,70 @@ console.log(result.b, obj.b, result.b === obj.b);
 console.log(result.b[0], obj.b[0], result.b[0] === obj.b[0]);
 ```
 
+这种写法非常简单，而且可以应对大部分的应用场景，但是它还是有很大缺陷的，比如拷贝其他引用类型、拷贝函数、循环引用等情况。
+
 ##### 6.8.2 通过递归的方法实现
 
+- 检查`map`中有无克隆过的对象（解决循环引用）
+- 有 - 直接返回
+- 没有 - 将当前对象作为`key`，克隆对象作为`value`进行存储
+- 继续克隆
+
 ```js
-const deepCopy = (obj) => {
-    let target  = null
-    if(typeof obj === 'object'){
-        if(Array.isArray(obj)){ //数组
-            target = [];
-            obj.forEach(item => {
-                target.push(deepCopy(item));
-            })
-        }else if(obj){
-            target = {}
-            let objKeys = Object.keys(obj);
-            objKeys.forEach(key => {
-                target[key] = deepCopy(obj[key]);
-            })
-        }else{
-            target = obj
-        }
-    }else{
-        target = obj;
+function deepClone(obj = {}, map = new Map()) {
+  if (typeof obj !== "object") {
+    return obj;
+  }
+    
+  const isArray = Array.isArray(target);
+  let result = isArray ? [] : {};
+    
+  if (map.get(obj)) {
+    return map.get(obj);
+  }
+
+  // 防止循环引用
+  map.set(obj, result);
+  for (const key in obj) {
+    if (obj.hasOwnProperty(key)) {
+      // 递归调用
+      result[key] = deepClone(obj[key], map);
     }
-    return target
+  }
+
+  // 返回结果
+  return result;
 }
- 
- 
-let obj = {a: 1, b: [{c: 2, d: 3}, {e: 4, f: 5}], g: 6}
-let result = deepCopy(obj);
-console.log(result, obj, result === obj)             
-console.log(result.b, obj.b, result.b === obj.b)     
-console.log(result.b[0], obj.b[0], result.b[0] === obj.b[0])
 ```
 
 ##### 6.8.3 使用循环的方式实现
 
 > https://blog.csdn.net/weixin_43840341/article/details/119464755 
+
+#### 6.9 Map对象
+
+Map 对象存有键值对，其中的键可以是任何数据类型。
+
+Map 对象记得键的原始插入顺序。
+
+Map 对象具有表示映射大小的属性。
+
+##### 6.9.1 基本的 Map() 方法
+
+| Method    | Description                    |
+| :-------- | :----------------------------- |
+| new Map() | 创建新的 Map 对象。            |
+| set()     | 为 Map 对象中的键设置值。      |
+| get()     | 获取 Map 对象中键的值。        |
+| entries() | 返回 Map 对象中键/值对的数组。 |
+| keys()    | 返回 Map 对象中键的数组。      |
+| values()  | 返回 Map 对象中值的数组。      |
+
+##### 6.9.2 Map属性
+
+| Property | Description               |
+| -------- | ------------------------- |
+| size     | 获取 Map 对象中某键的值。 |
 
 ### 7. JavaScript prototype（原型对象）
 
